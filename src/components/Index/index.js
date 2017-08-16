@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Charts from '../Charts/index.js';
+import EditChart from '../EditChart/index.js';
 import List from '../List/index.js';
 import logo from './logo.svg';
 import './Index.css';
@@ -34,6 +35,8 @@ export default class Index extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <List />
+
+        <EditChart />
 
         <Charts cartesianGrid data={data} type={this.state.type}/>
       </div>
