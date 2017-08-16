@@ -18,10 +18,36 @@ const data = [
 export default class Index extends Component {
   constructor() {
     super();
-
     this.state = {
-      type: 'line'
+      width: 600,
+      height: 300,
+      type: 'line',
+      margin: { top: 5, right: 30, left: 20, bottom: 5 }
     }
+  }
+
+  handleWidth({ target }) {
+    const width = Number(target.value) || 100
+    this.setState({ width })
+  }
+
+  handleHeight({ target }) {
+    const height = Number(target.value) || 100
+    this.setState({ height })
+  }
+
+  handleMargin({ target }) {
+    if (/^[\],:{}\s]*$/.test(target.value.replace(/\\["\\\/bfnrtu]/g, '@').
+      replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+      replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+      const margin = JSON.parse(target.value)
+      this.setState({ margin })
+    }
+  }
+
+  handleChartType({ target }) {
+    const type = target.value
+    this.setState({ type })
   }
 
   render() {
@@ -36,9 +62,26 @@ export default class Index extends Component {
         </p>
         <List />
 
-        <EditChart />
+        {JSON.stringify(this.state)}
 
-        <Charts cartesianGrid data={data} type={this.state.type}/>
+        <EditChart
+          handleWidth={this.handleWidth.bind(this)}
+          handleHeight={this.handleHeight.bind(this)}
+          handleMargin={this.handleMargin.bind(this)}
+          handleChartType={this.handleChartType.bind(this)}
+          width={this.state.width}
+          height={this.state.height}
+          chart={this.state.chart}
+          margin={this.state.margin} />
+
+        <Charts
+          cartesianGrid
+          data={data}
+          type={this.state.type}
+          width={this.state.width}
+          height={this.state.height}
+          chart={this.state.chart}
+          margin={this.state.margin} />
       </div>
     );
   }
